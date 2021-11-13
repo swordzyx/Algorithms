@@ -79,18 +79,47 @@ public class ArrayList<E> {
     }
 
     /**
-     * 在 index 处插入元素
+     * 在 index 处插入元素  1, 2, 3   size: 3  add(1, 1)
      */
     public void add(int index, E element) {
-        indexCheck(index);
-        for(int i=index; i<size; i++) {
-            
+        indexCheckForAdd(index);
+        for(int i=size; i>index; i--) {
+            elements[i] = elements[i - 1];
         }
+        elements[index] = element;
+    }
+
+    /**
+     * 检查当前是否有 capacity 的容量
+     */
+    private void ensureCapacity(int capacity) {
+        int oldCapacity = elements.length;
+        if(oldCapacity >= capacity) return;
+
+        //容量不够了，扩容。oldCapacity 右移一位表示除以 2
+        int newCapacity = oldCapacity + (oldCapacity >> 1);
+        E[] newElements = (E[]) new Object[newCapacity];
+
+        //为什么不直接使用 oldCapacity 来进行 for 循环
+        for(int i=0; i<oldCapacity; i++) {
+            newElements[i] = elements[i];
+        }
+        System.out.println("数组扩容，" + oldCapacity + " 扩容为 " + newCapacity );
     }
     
     private void indexCheck(int index) {
-        if(index < 0 || index > size) {
+        //todo: 这里为什么是 index >= size
+        if(index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("数组下表越界 index = " + index + " size: " + size);
+        }
+    }
+
+    /**
+     * 检查添加元素时的索引是否合法
+     */
+    private void indexCheckForAdd(int index) {
+        if(index < 0 || index > size) {
+            
         }
     }
 }
