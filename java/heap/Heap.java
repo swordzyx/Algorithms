@@ -35,15 +35,22 @@ public class Heap {
 	}
 
 	public static void buildHeap(int[] datas) {
-		for (int i = datas.length / 2; i > 0; i--) {
-			heapify(datas, datas.length, i);
+		for (int i = datas.length / 2; i >= 0; i--) {
+			heapify(datas, datas.length - 1, i);
 		}
 	}
 
 	public static void sort(int[] datas) {
-		
+		buildHeap(datas);
+		int heapifyCount = datas.length;
+		while(heapifyCount > 1) {
+			swap(datas, 0, datas.length - 1);
+			--heapifyCount;
+			heapify(datas, heapifyCount - 1, 0);
+		}
 	}
 
+	//自顶向下堆化
 	private static void heapify(int[] datas, int n, int index) {
 		int i = index;
 		int maxIndex = i;
